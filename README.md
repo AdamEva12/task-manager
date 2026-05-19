@@ -4,6 +4,8 @@
 
 ## Live Demo
 
+Note: Authentication is currently implemented on the backend. Frontend login/register UI is planned.
+
 Frontend: https://task-manager-gamma-five-66.vercel.app/  
 API: https://task-manager-api-1216.onrender.com/health
 
@@ -15,7 +17,7 @@ This project is designed as a portfolio application demonstrating practical back
 
 ## Quick Summary
 
-Task Manager is a full-stack CRUD application for managing projects and tasks.
+Task Manager is a full-stack project and task management application with a React frontend, Express API, PostgreSQL database, backend JWT authentication, integration tests, E2E tests, CI, and cloud deployment.
 
 Highlights:
 
@@ -24,6 +26,8 @@ Highlights:
 - Integration tests with Jest + Supertest
 - End-to-End testing (Playwright)
 - Modular React architecture (hooks + API layer)
+- JWT authentication and protected API routes
+- User-specific project and task ownership
 
 ---
 
@@ -78,11 +82,15 @@ The project focuses on engineering practices rather than UI complexity.
 - Integration tests using Jest and Supertest
 - End-to-end tests using Playwright for full user workflows
 - Centralized error handling
+- JWT authentication backend with register/login API routes
+- Protected API routes using auth middleware
+- User-based data isolation for projects and tasks
 
 ## Planned
 
-- Optional authentication / user accounts
 - Optional support for unassigned tasks (`projectId = null`)
+- Frontend registration/login flow
+- Logout and authenticated UI state
 
 ---
 
@@ -103,6 +111,8 @@ The project focuses on engineering practices rather than UI complexity.
 - Prisma ORM
 - PostgreSQL
 - REST API
+- JWT authentication
+- bcrypt password hashing
 
 ## Testing
 
@@ -171,11 +181,21 @@ The backend uses Express route modules and Prisma for persistence.
 - Relational data modeled in PostgreSQL
 - Database-level cascade deletion
 - Integration tests against a dedicated test database
+- JWT-based authentication
+- Auth middleware for protected routes
+- User ownership checks for projects and tasks
 
 [↑ Back to top](#task-manager)
 ---
 
 # API Overview
+Project and task routes require an Authorization header:
+Authorization: Bearer <token>
+
+## Auth
+
+POST /auth/register  
+POST /auth/login  
 
 ## Projects
 
@@ -198,18 +218,25 @@ DELETE /tasks/:id
 
 # Data Model
 
+## User
+
+id  
+email  
+passwordHash  
+createdAt  
+
 ## Project
 
 id  
 name  
+userId  
 
 ## Task
 
 id  
 title  
 projectId  
-
-`projectId` is currently nullable to allow future support for unassigned tasks.
+userId  
 
 ---
 
@@ -317,6 +344,14 @@ onDelete: Cascade
 
 When a project is deleted, its tasks are automatically removed by the database.
 
+## Authentication and Authorization
+
+The backend uses JWT-based authentication. Passwords are hashed before being stored in the database.
+
+Protected routes require a Bearer token. The auth middleware verifies the token and attaches the authenticated user id to the request.
+
+Project and task queries are scoped by `userId`, ensuring users can only access their own data.
+
 [↑ Back to top](#task-manager)
 ---
 
@@ -339,6 +374,17 @@ npm run dev
 cd apps/api  
 npm test  
 
+## Environment Variables
+
+Backend `.env`:
+
+DATABASE_URL=your_postgresql_connection_string  
+JWT_SECRET=your_jwt_secret  
+
+Frontend `.env`:
+
+VITE_API_URL=http://localhost:3001
+
 ---
 
 # Future Improvements
@@ -346,8 +392,9 @@ npm test
 Planned improvements:
 
 - screenshots / demo GIF
-- authentication
 - task filtering and sorting
+- Docker setup
+- AI-assisted task generation and prioritization
 
 ---
 
