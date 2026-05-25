@@ -3,18 +3,42 @@ import { useProjects } from "./hooks/useProjects";
 import { useTasks } from "./hooks/useTasks"
 import TasksPanel from "./components/TasksPanel"
 import ProjectsPanel from "./components/ProjectsPanel";
+import AuthPanel from "./components/AuthPanel"
+import { useAuth } from "./hooks/useAuth";
 import './App.css'
 
 function App() {
+  const auth = useAuth();
   const [selectedProjectId, setSelectedProjectId] = useState(null);
-  const projectsState = useProjects();
-  const tasksState = useTasks(selectedProjectId);
+  const projectsState = useProjects(auth.token);
+  const tasksState = useTasks(selectedProjectId, auth.token);
 
+  useEffect(() => {
+    if (auth.token) {
+      projectsState.loadProjects();
+    }
+  }, [auth.token]);
+
+  if (!auth.token) {
+    return (
+      <AuthPanel
+        onRegister={auth.register}
+        onLogin={auth.login}
+        loading={auth.loading}
+        error={auth.error}
+      />
+    );
+  }
 
 
   const selectedProject = projectsState.projects.find(
     p => p.id === selectedProjectId
   );
+
+  const handleLogout = () => {
+    setSelectedProjectId(null);
+    auth.logout();
+  };
 
   const handleProjectDelete = async (projectId) => {
     const ok = await projectsState.deleteProject(projectId);
@@ -25,7 +49,6 @@ function App() {
     }
   };
 
-  useEffect(() => { projectsState.loadProjects(); }, []);
   return (
     <div className="appShell">
       <div className="appContainer">
@@ -40,6 +63,10 @@ function App() {
               ? "No project selected"
               : `Selected: ${selectedProject?.name}`}
           </div>
+          <button
+            className="btn btnSecondary"
+            onClick={handleLogout}
+          >Logout</button>
         </div>
 
         <div className="appLayout">

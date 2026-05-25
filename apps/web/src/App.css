@@ -27,6 +27,7 @@ body {
   border: 1px solid #ddd;
   border-radius: 10px;
   padding: 16px;
+  max-width: 360px;
 }
 
 .cardTitle {
@@ -46,6 +47,8 @@ body {
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .btn {
@@ -151,6 +154,22 @@ body {
   color: #666;
 }
 
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.authActions {
+  margin-top: 4px;
+}
+
 @media (max-width: 800px) {
   .appLayout {
     grid-template-columns: 1fr;
@@ -158,6 +177,8 @@ body {
 
   .row {
     flex-direction: column;
+    display: flex;
+    gap: 12px;
   }
 
   .actions {
