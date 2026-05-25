@@ -4,14 +4,12 @@
 
 ## Live Demo
 
-Note: Authentication is currently implemented on the backend. Frontend login/register UI is planned.
-
 Frontend: https://task-manager-gamma-five-66.vercel.app/  
 API: https://task-manager-api-1216.onrender.com/health
 
 Full-stack project and task management application built with **React, Express, Prisma, and PostgreSQL**.
 
-This project is designed as a portfolio application demonstrating practical backend and frontend engineering practices: API design, relational database modeling, integration testing, modular React architecture, and iterative refactoring from an MVP into a more production-like structure. 
+This project started as a simple CRUD MVP and gradually evolved into a more production-like full-stack application.
 
 ---
 
@@ -53,7 +51,7 @@ Highlights:
 
 # Overview
 
-Task Manager allows users to create projects and manage tasks within those projects through a clean REST API and a minimal UI. The application is fully deployed and accessible online, demonstrating a realistic cloud deployment setup.
+Task Manager allows users to create projects and manage tasks within those projects through a clean REST API and a lightweight frontend UI. The application is fully deployed and accessible online, demonstrating a realistic cloud deployment setup.
 
 The project focuses on engineering practices rather than UI complexity.
 
@@ -85,12 +83,15 @@ The project focuses on engineering practices rather than UI complexity.
 - JWT authentication backend with register/login API routes
 - Protected API routes using auth middleware
 - User-based data isolation for projects and tasks
+- Frontend login/register flow
+- Persistent authentication using localStorage
+- Logout functionality
+- Authenticated UI state
+
 
 ## Planned
 
 - Optional support for unassigned tasks (`projectId = null`)
-- Frontend registration/login flow
-- Logout and authenticated UI state
 
 ---
 
@@ -381,9 +382,11 @@ Backend `.env`:
 DATABASE_URL=your_postgresql_connection_string  
 JWT_SECRET=your_jwt_secret  
 
-Frontend `.env`:
+Frontend `.env` (optional for local development):
 
-VITE_API_URL=http://localhost:3001
+VITE_API_URL=https://your-production-api-url
+
+Local development uses the Vite proxy configuration to forward `/api` requests to the local backend server.
 
 ---
 
