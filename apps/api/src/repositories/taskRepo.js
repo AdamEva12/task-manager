@@ -6,10 +6,11 @@ function createTaskRepo(prisma) {
         });
     };
 
-    const createInProject = (title, projectId, userId) => {
+    const createInProject = (title, prioridity, projectId, userId) => {
         return prisma.task.create({
             data: {
                 title,
+                prioridity,
                 projectId,
                 userId,
             }

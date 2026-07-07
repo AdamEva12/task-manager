@@ -4,6 +4,8 @@ import { useState } from 'react'
 export function useProjects(token) {
     const [projects, setProjects] = useState([]);
     const [projectName, setProjectName] = useState("");
+    const [description, setDescription] = useState("");
+    const [prioridity, setPrioridity] = useState("");
     const [editingName, setEditingName] = useState("");
     const [editingProjectId, setEditingProjectId] = useState(null);
 
@@ -15,10 +17,11 @@ export function useProjects(token) {
 
     const createProject = async () => {
         if (!projectName.trim()) return;
-        const createdProject = await projectsApi.createProject(projectName, token);
+        const createdProject = await projectsApi.createProject(projectName, description, token);
         if (!createdProject) return;
         setProjects(prev => [...prev, createdProject]);
         setProjectName("");
+        setDescription("");
     };
 
     const deleteProject = async (projectId) => {
@@ -42,6 +45,10 @@ export function useProjects(token) {
         projects,
         projectName,
         setProjectName,
+        description,
+        setDescription,
+        prioridity,
+        setPrioridity,
         loadProjects,
         createProject,
         deleteProject,

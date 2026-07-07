@@ -75,6 +75,10 @@ function App() {
               projects={projectsState.projects}
               projectName={projectsState.projectName}
               setProjectName={projectsState.setProjectName}
+              description={projectsState.description}
+              setDescription={projectsState.setDescription}
+              prioridity={projectsState.prioridity}
+              setPrioridity={projectsState.setPrioridity}
               createProject={projectsState.createProject}
               loadProjects={projectsState.loadProjects}
               selectedProjectId={selectedProjectId}
@@ -95,6 +99,8 @@ function App() {
               tasks={tasksState.tasks}
               taskTitle={tasksState.taskTitle}
               setTaskTitle={tasksState.setTaskTitle}
+              taskPrioridity={tasksState.taskPrioridity}
+              setTaskPrioridity={tasksState.setTaskPrioridity}
               createTaskInProject={tasksState.createTaskInProject}
               editingTaskId={tasksState.editingTaskId}
               setEditingTaskId={tasksState.setEditingTaskId}

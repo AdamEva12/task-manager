@@ -3,6 +3,10 @@ function ProjectsPanel({
     projects,
     projectName,
     setProjectName,
+    description,
+    setDescription,
+    prioridity,
+    setPrioridity,
     createProject,
     loadProjects,
     selectedProjectId,
@@ -48,7 +52,22 @@ function ProjectsPanel({
                     Reload
                 </button>
             </div>
-
+                    <div className="row">
+            <input
+        className="input"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        placeholder="Project description (optional)"
+    />
+</div>
+                    <div className="row">
+            <input
+        className="input"
+        value={prioridity}
+        onChange={(e) => setPrioridity(e.target.value)}
+        placeholder="Project priority (optional)"
+    />
+</div>
             <h3 className="cardTitle">Projects</h3>
 
             {projects.length === 0 ? (

@@ -11,14 +11,14 @@ export async function loadProjects(token) {
     return await res.json();
 };
 
-export async function createProject(name, token) {
+export async function createProject(name,description,prioridity,token) {
     const res = await fetch(`${API_BASE_URL}/projects`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({ name }),
+        body: JSON.stringify({ name, description, prioridity }),
     });
     if (!res.ok) return null;
     return await res.json();

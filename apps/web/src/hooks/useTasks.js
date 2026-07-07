@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 export function useTasks(selectedProjectId, token) {
     const [tasks, setTasks] = useState([]);
     const [taskTitle, setTaskTitle] = useState("");
+    const [taskPrioridity, setTaskPrioridity] = useState("");
     const [editingTaskId, setEditingTaskId] = useState(null);
     const [editingTitle, setEditingTitle] = useState("");
 
@@ -41,12 +42,13 @@ export function useTasks(selectedProjectId, token) {
     const createTaskInProject = async () => {
         if (selectedProjectId === null) return;
         if (!taskTitle.trim()) return;
-        const createdTask = await tasksApi.createTaskInProject(selectedProjectId, taskTitle, token);
+        const createdTask = await tasksApi.createTaskInProject(selectedProjectId, taskTitle, taskPrioridity, token);
         if (!createdTask) return;
         if (Number(createdTask.projectId) === selectedProjectId) {
             setTasks(prev => [...prev, createdTask]);
         }
         setTaskTitle("");
+        setTaskPrioridity("");
     }
     
     useEffect(() => {
@@ -64,6 +66,8 @@ export function useTasks(selectedProjectId, token) {
         deleteTask,
         taskTitle,
         setTaskTitle,
+        taskPrioridity,
+        setTaskPrioridity,
         tasks,
         editingTaskId,
         setEditingTitle,

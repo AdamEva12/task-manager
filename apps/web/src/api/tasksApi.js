@@ -12,14 +12,14 @@ export async function loadTasks(projectId, token) {
 };
 
 
-export async function createTaskInProject(projectId, title, token) {
+export async function createTaskInProject(projectId, title, prioridity, token) {
     const res = await fetch(`${API_BASE_URL}/projects/${projectId}/tasks`, {
         method: "POST",
-        headers: { 
+        headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({ title })
+        body: JSON.stringify({ title, prioridity })
     });
     if (!res.ok) return null;
     return await res.json();

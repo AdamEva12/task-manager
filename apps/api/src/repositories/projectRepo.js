@@ -7,9 +7,9 @@ function createProjectRepo(prisma) {
         });
     };
 
-    const create = (name, userId) => {
+    const create = (name, description, prioridity,userId) => {
         return prisma.project.create({
-            data: { name, userId},
+            data: { name, description, prioridity, userId},
         })
     };
 

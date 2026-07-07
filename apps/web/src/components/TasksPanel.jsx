@@ -4,6 +4,8 @@ function TasksPanel({
     tasks,
     taskTitle,
     setTaskTitle,
+    taskPrioridity,
+    setTaskPrioridity,
     createTaskInProject,
     editingTaskId,
     setEditingTaskId,
@@ -40,6 +42,13 @@ function TasksPanel({
                             }
                         }}
                     />
+                    <input
+                        className="input"
+                        value={taskPrioridity}
+                        onChange={(e) => setTaskPrioridity(e.target.value)}
+                        placeholder="Priority"
+                        style={{ marginLeft: '8px', width: '120px' }}
+                    />
                     <button className="btn" onClick={createTaskInProject}>
                         Create task
                     </button>
@@ -61,6 +70,7 @@ function TasksPanel({
                             {t.id !== editingTaskId ? (
                                 <>
                                     <span className="itemMain">{t.title}</span>
+                                    {t.prioridity && <span className="badge">{t.prioridity}</span>}
 
                                     <div className="actions">
                                         <button

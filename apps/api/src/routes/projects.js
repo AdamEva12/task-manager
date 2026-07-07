@@ -15,7 +15,7 @@ function createProjectRouter(projectRepo, taskRepo) {
     });
 
     router.post("/", async (req, res, next) => {
-        const { name } = req.body
+        const { name, description,prioridity } = req.body
         if (typeof name !== "string") {
             return next(createError("Name is required", 400));
         }
@@ -26,7 +26,7 @@ function createProjectRouter(projectRepo, taskRepo) {
             return next(createError("Name is required", 400));
         }
         try {
-            const created = await projectRepo.create(cleanName, req.userId);
+            const created = await projectRepo.create(cleanName, description,prioridity, req.userId);
             return res.status(201).json(created)
         } catch (error) {
             console.error("POST /projects failed:", error);
@@ -125,7 +125,7 @@ function createProjectRouter(projectRepo, taskRepo) {
 
     router.post("/:projectId/tasks", async (req, res, next) => {
         const projectIdForTasks = Number(req.params.projectId);
-        const { title } = req.body;
+        const { title, prioridity } = req.body;
         if (typeof title !== 'string') {
             return next(createError("Title is required", 400))
         }
@@ -139,7 +139,7 @@ function createProjectRouter(projectRepo, taskRepo) {
         try {
             const project = await projectRepo.findById(projectIdForTasks, req.userId)
             if (!project) return next(createError("Project not found", 404))
-            const createdTask = await taskRepo.createInProject(cleanTitle, projectIdForTasks, req.userId)
+            const createdTask = await taskRepo.createInProject(cleanTitle, prioridity, projectIdForTasks, req.userId)
             return res.status(201).json(createdTask)
         } catch (error) {
             console.error("POST /tasks failed:", error);
